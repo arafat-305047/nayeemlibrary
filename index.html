@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIS Library</title>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/1b937cdc25.js" crossorigin="anonymous"></script>
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Manrope', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        .header {
+            padding: 20px 0;
+            
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            
+        }
+        
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: #000;
+        }
+        
+        .navbar-brand span {
+            color: #FF4240;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-menu li {
+            margin: 0 10px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 5px 10px;
+        }
+        
+        .nav-menu a.active {
+            color: #FF4240;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #a9211d;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            display: none;
+            width: 100%;
+            background: rgb(194, 162, 162);
+            padding: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            background-color: #003049;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #cf9494;
+        }
+        
+        .hero-subtitle {
+            color: #d1dfea;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 40px;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .about-content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .about-content p {
+            color: #6c757d;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FF4240;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+        }
+        
+        /* Programs Section */
+        .programs-section {
+            padding: 60px 0;
+        }
+        
+        .programs-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .program-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .program-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: fill;
+        }
+        
+        .program-card-body {
+            padding: 20px;
+        }
+        
+        .program-card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .program-card-text {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        /* Blog Section */
+        .blog-section {
+            padding: 60px 0;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .blog-card-body {
+            padding: 20px;
+        }
+        
+        .blog-card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .blog-card-text {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            padding: 60px 0;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .contact-info-item {
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .contact-info-item h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .contact-form {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: black;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        /* Utility Classes */
+        .text-red {
+            color: #FF4240;
+        }
+        
+        .bg-light-green {
+            background-color: #cadfa9;
+        }
+        
+        .bg-green {
+            background-color: #879276;
+        }
+        
+        .bg-light-blue {
+            background-color: #9ca8c9;
+        }
+        
+        /* Responsive Styles */
+        @media (min-width: 768px) {
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .programs-grid,
+            .blog-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .programs-grid,
+            .blog-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .navbar-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="navbar-brand">
+                    <a href="index.html">IIS Library</a>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="navbar-menu" id="navbarMenu">
+                    <ul class="nav-menu">
+                        <li><a href="#home" class="active">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#programs">Books</a></li>
+                        <li><a href="#blog">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-actions">
+                    <i class="fas fa-search"></i>
+                    <a href="#" class="btn">Get Book</a>
+                </div>
+            </nav>
+            
+            <div class="mobile-menu" id="mobileMenu">
+                <ul class="nav-menu">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#programs">Books</a></li>
+                    <li><a href="#blog">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <h1 class="hero-title">Welcome to IIS Library.</h1>
+                <p class="hero-subtitle">A Place to Read, Think, and Discover.</p>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <div class="container">
+                <h2 class="section-title">About Us</h2>
+                <p class="section-subtitle">Learn more about IIS Library and our Mission</p>
+                
+                <div class="about-grid">
+                    <div class="about-image">
+                        <br>
+                        <img src="Images/iis.jpg" alt="About IIS library">
+                    </br>
+                    </div>
+
+            
+                 <div class="about-content">
+                        <h2>Our Story</h2>
+                        <p>The IIS Library is the knowledge hub of the Institute of Information Science (IIS) of Noakhali Science & Technology University,committed to supporting academic excellence, research, and lifelong learning.
+                        Our collection spans a wide range of subjects including science, technology, literature, and beyond—designed to serve students, faculty, and researchers alike.</p>
+                        <p>We offer a blend of traditional and digital resources, including books, journals, e-books, databases, and a modern reading environment.
+                        With a user-friendly catalog system and dedicated library staff, the IIS Library ensures seamless access to information and learning tools.
+                           <br> 
+                        Whether you're working on a research project, preparing for exams, or simply exploring new ideas, the IIS Library is here to support your intellectual journey.</br>
+                    </p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">1000+</div>
+                                <div class="stat-label">Books</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">20+</div>
+                                <div class="stat-label">Professionals</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Programs Section -->
+        <section class="programs-section" id="programs">
+            <div class="container">
+                <h2 class="section-title">Books</h2>
+                <p class="section-subtitle">Fueling Curiosity Through Every Page.</p>
+                
+                <div class="programs-grid">
+                    <!-- Program 1 -->
+                    <div class="program-card">
+                        <img src="Images/book1.jpeg" alt="Junior Program">
+                        <div class="program-card-body">
+                            <h3 class="program-card-title">Library and Information Sciences: Trends and Research </h3>
+                            <p class="program-card-text">Editors:
+                                Chuanfu Chen, Ronald Larsen</p>
+                            <button class="btn">Request for Booking.</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Program 2 -->
+                    <div class="program-card">
+                        <img src="Images/book2.jpeg" alt="Teenager Program">
+                        <div class="program-card-body">
+                            <h3 class="program-card-title">Digital Libraries.</h3>
+                            <p class="program-card-text">Editor: Fabrice Papy.</p>
+                            <br>
+                            <br>
+                            <br>
+                            <button class="btn">Request for Booking.</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Program 3 -->
+                    <div class="program-card">
+                        <img src="Images/book3.jpeg" alt="Professional Program">
+                        <div class="program-card-body">
+                            <h3 class="program-card-title">Library & Information Science.</h3>
+                            <p class="program-card-text">Rakesh Kumar, C.K. Sharma</p>
+                            <br>
+                            
+                            <button class="btn">Request for Booking.</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Program 4 -->
+                    <div class="program-card">
+                        <img src="Images/book4.jpeg" alt="Team Training">
+                        <div class="program-card-body">
+                            <h3 class="program-card-title">New Directions in Information Organization.</h3>
+                            <p class="program-card-text">Editors:
+                                Jung-Ran Park,
+                                Lynne C. Howarth</p>
+                            <button class="btn">Request for Booking.</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section class="blog-section" id="blog">
+            <div class="container">
+                <h2 class="section-title">Our Service.</h2>
+                <p class="section-subtitle">Reliable Services, Enriching Every Learning Journey</p>
+                
+                <div class="blog-grid">
+                    <!-- Blog Post 1 -->
+                    <div class="blog-card">
+                        <img src="Images/circulation.jpeg" alt="Blog Post">
+                        <div class="blog-card-body">
+                            <h3 class="blog-card-title">Book Lending & Circulation.</h3>
+                            <p class="blog-card-text">Borrow books and other materials with easy checkout and return policies.</p>
+                            <button class="btn">Learn More</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Blog Post 2 -->
+                    <div class="blog-card">
+                        <img src="Images/digital.jpeg" alt="Blog Post">
+                        <div class="blog-card-body">
+                            <h3 class="blog-card-title">Digital Library Access</h3>
+                            <p class="blog-card-text">Enjoy 24/7 access to eBooks, journals, databases, and digital resources.</p>
+                            <button class="btn">Learn More</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Blog Post 3 -->
+                    <div class="blog-card">
+                        <img src="Images/repo.jpeg" alt="Blog Post">
+                        <div class="blog-card-body">
+                            <h3 class="blog-card-title">Institutional Repository</h3>
+                            <p class="blog-card-text">Access and contribute to research output, theses, and publications of the institution.</p>
+                            <button class="btn">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <h2 class="section-title">Contact Us</h2>
+                <p class="section-subtitle">Get in touch with us for any inquiries</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="contact-info-item bg-light-green">
+                            <h3>Phone Number</h3>
+                            <p>0186600000</p>
+                        </div>
+                        <div class="contact-info-item bg-green">
+                            <h3>Email</h3>
+                            <p>nasirnayeem1420@gmail.com</p>
+                        </div>
+                        <div class="contact-info-item bg-light-blue">
+                            <h3>Location</h3>
+                            <p>NSTU Library.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" class="form-control" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Your Email</label>
+                                <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" class="form-control" placeholder="Enter subject">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" class="form-control" placeholder="Write your message"></textarea>
+                            </div>
+                            <button type="submit" class="btn w-full">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: #003049; color: #ffffff; padding: 40px 20px;">
+        <div style="max-width: 1100px; margin: auto; text-align: center;">
+          <h3>IIS Library</h3>
+          <p>A Place to Read, Think, and Discover.</p>
+          <div style="margin: 20px 0;">
+            <a href="#" style="color: white; margin: 0 10px; ">Facebook</a> |
+            <a href="#" style="color: white; margin: 0 10px;">Twitter</a> |
+            <a href="#" style="color: white; margin: 0 10px;">Instagram</a>
+          </div>
+          <p>&copy; 2025 All rights reserved to Nasir Uddin Nayeem.</p>
+        </div>
+      </footer>
+      
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
